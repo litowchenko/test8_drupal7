@@ -1,0 +1,12 @@
+name = Feature for view 'Test 8 for Drupal 7'
+description = Contains view that shows data from the test8_drupal7 table for the same Entity type.
+core = 7.x
+package = test8_drupal7
+version = 7.x-1.0
+dependencies[] = ctools
+dependencies[] = test8_drupal7
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = test_8_for_drupal_7
+project path = sites/all/modules/features
