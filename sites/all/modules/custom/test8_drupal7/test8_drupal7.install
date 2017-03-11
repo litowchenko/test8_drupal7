@@ -2,19 +2,102 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the test8_drupal7 module.
+ * Install and uninstall functions for the test8_drupal7 module.
  *
- * Creates a new Entity, loads data for it from YML.
+ * Defines schema for the new Entity type.
+ * Creates new entities, loads data for them from YML.
  */
 
-//hook_requirements
+/**
+ * Implements hook_schema().
+ */
+function test8_drupal7_schema() {
+  $schema['test8_drupal7'] = array(
+    'description' => 'Contain test8_drupal7 entities',
+    'fields'      => array(
+      'id'          => array(
+        'description' => 'The primary key.',
+        'type'        => 'serial',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'title'       => array(
+        'description' => 'The title of the Entity instance.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'description' => array(
+        'description' => 'The description of the Entity instance.',
+        'type'        => 'text',
+        'size'        => 'big',
+        'not null'    => TRUE,
+      ),
+      'url'         => array(
+        'description' => 'The URL of the Entity instance.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'created'     => array(
+        'description' => 'The unix timestamp of created record.',
+        'type'        => 'int',
+        'not null'    => TRUE,
+        'default'     => 0,
+      ),
+      'updated'     => array(
+        'description' => 'The unix timestamp of updated record.',
+        'type'        => 'int',
+        'not null'    => TRUE,
+        'default'     => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
 
-//hook_schema
+  return $schema;
+}
 
-//hook_install
+/**
+ * Implements hook_install().
+ */
+function test8_drupal7_install() {
+  // Find new entities in the 'content' folder.
+  $entities_array = _test8_drupal7_get_new_entities();
 
-//hook_uninstall
+  // Create new entities.
+  $entity_type = 'test8_drupal7';
+  foreach ($entities_array as $entity_data) {
+    try {
+      $entity = entity_create($entity_type, $entity_data);
+      $entity->save();
+    }
+    catch (EntityMetadataWrapperException $e) {
+      watchdog_exception('test8_drupal7', $e);
+    }
+  }
+}
 
-//hook_enable
+/**
+ * Helper functions that looks for YAML files and parses them.
+ *
+ * @return array
+ *   Parsed data form the founded yaml files
+ *   or empty array if there was en error.
+ */
+function _test8_drupal7_get_new_entities() {
+  module_load_include('php', 'test8_drupal7', 'src/Spyc');
 
-//hook_disable
+  $spyc = new Spyc();
+  $configs = array();
+
+  // Get the files from the content directory.
+  $module_path = drupal_get_path('module', 'test8_drupal7');
+  $files = file_scan_directory($module_path . '/content', '/[.*.yaml]$/');
+  foreach ($files as $file) {
+    // Load the file into the yaml parser.
+    $configs = $spyc->YAMLLoad($file->uri);
+  }
+
+  return $configs;
+}

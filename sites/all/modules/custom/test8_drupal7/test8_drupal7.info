@@ -4,5 +4,9 @@ package = test8_drupal7
 core = 7.x
 version = 7.x-1.x
 
-;files[] =
-;dependencies[] = 
+dependencies[] = entity
+dependencies[] = views
+dependencies[] = features
+
+files[] = 'includes/test8_drupal7.controller.inc'
+files[] = 'includes/test8_drupal7.view_controller.inc'

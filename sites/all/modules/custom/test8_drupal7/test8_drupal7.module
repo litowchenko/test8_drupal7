@@ -4,3 +4,39 @@
  * @file
  * Creates a new Entity and makes it available for Views.
  */
+
+/**
+ * Implements hook_entity_info().
+ */
+function test8_drupal7_entity_info() {
+  $info['test8_drupal7'] = array(
+    'label'                  => t('Test 8 for Drupal 7'),
+    'base table'             => 'test8_drupal7',
+    'entity class'           => 'Entity',
+    'controller class'       => 'Test8Drupal7Controller',
+    'views controller class' => 'Test8Drupal7ViewsController',
+    'label callback'         => 'test8_drupal7_entity_label_callback',
+    'access callback'        => 'test8_drupal7_entity_access_callback',
+    'module'                 => 'test8_drupal7',
+    'fieldable'              => FALSE,
+    'entity keys'            => array(
+      'id' => 'id',
+    ),
+  );
+
+  return $info;
+}
+
+/**
+ * Entity access callback for test8_drupal7 entities.
+ */
+function test8_drupal7_entity_label_callback($entity, $entity_type) {
+  return $entity->title;
+}
+
+/**
+ * Entity access callback for test8_drupal7 entities.
+ */
+function test8_drupal7_entity_access_callback($op) {
+  return TRUE;
+}
