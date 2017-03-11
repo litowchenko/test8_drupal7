@@ -1,0 +1,8 @@
+name = Test 8 for Drupal 7
+description = Creates a new Entity, loads data for it from YML and makes it available for Views.
+package = test8_drupal7
+core = 7.x
+version = 7.x-1.x
+
+;files[] =
+;dependencies[] = 

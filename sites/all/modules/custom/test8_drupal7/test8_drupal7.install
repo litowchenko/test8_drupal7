@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the test8_drupal7 module.
+ *
+ * Creates a new Entity, loads data for it from YML.
+ */
+
+//hook_requirements
+
+//hook_schema
+
+//hook_install
+
+//hook_uninstall
+
+//hook_enable
+
+//hook_disable

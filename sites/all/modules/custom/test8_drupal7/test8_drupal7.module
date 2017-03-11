@@ -1,0 +1,6 @@
+<?php
+
+/**
+ * @file
+ * Creates a new Entity and makes it available for Views.
+ */
